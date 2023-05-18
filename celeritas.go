@@ -9,9 +9,34 @@ type Celeritas struct {
 }
 
 func (c *Celeritas) New(rootPath string) error {
-
+	pathConfig := initPaths{
+		rootPath:    rootPath,
+		folderNames: []string{
+			"handlers",
+			"migrations",
+			"views",
+			"data",
+			"public",
+			"tmp",
+			"logs",
+			"middleware",
+		},
+	}
+	err := c.Init(pathConfig)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (c *Celeritas) Init( p initPaths) error {
-
+func (c *Celeritas) Init(p initPaths) error {
+	root := p.rootPath
+	for _, path := range p.folderNames {
+		// create folder if it doesn't exist
+		err := c.CreateDirIfNotExist(root + "/" + path)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
