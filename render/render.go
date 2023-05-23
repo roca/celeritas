@@ -1,6 +1,11 @@
 package render
 
-import "net/http"
+import (
+	"fmt"
+	"html/template"
+	"net/http"
+	"strings"
+)
 
 type Render struct {
 	Renderer   string
@@ -23,5 +28,29 @@ type TemplateData struct {
 }
 
 func (c *Render) Page(w http.ResponseWriter, r *http.Request, view string, variables, data interface{}) error {
+	switch strings.ToLower(c.Renderer) {
+	case "go":
+		return c.GoPage(w, r, view, variables, data)
+	case "jet":
+	}
+	return nil
+}
+
+func (c *Render) GoPage(w http.ResponseWriter, r *http.Request, view string, variables, data interface{}) error {
+	tmpl, err := template.ParseFiles(fmt.Sprintf("%s/views/%s.page.tmpl", c.RootPath, view))
+	if err != nil {
+		return err
+	}
+
+	td := &TemplateData{}
+	if data != nil {
+		td = data.(*TemplateData)
+	}
+
+	err = tmpl.Execute(w, &td)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
