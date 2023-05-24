@@ -1,7 +1,6 @@
 package celeritas
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
