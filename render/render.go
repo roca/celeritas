@@ -35,7 +35,7 @@ type TemplateData struct {
 func (c *Render) Page(w http.ResponseWriter, r *http.Request, view string, variables, data interface{}) error {
 	switch strings.ToLower(c.Renderer) {
 	case "go":
-		return c.GoPage(w, r, view, variables, data)
+		return c.GoPage(w, r, view, data)
 	case "jet":
 		return c.JetPage(w, r, view, variables, data)
 	default:
@@ -44,7 +44,7 @@ func (c *Render) Page(w http.ResponseWriter, r *http.Request, view string, varia
 }
 
 // GoPage renders a page using the standard Go template engine
-func (c *Render) GoPage(w http.ResponseWriter, r *http.Request, view string, variables, data interface{}) error {
+func (c *Render) GoPage(w http.ResponseWriter, r *http.Request, view string, data interface{}) error {
 	tmpl, err := template.ParseFiles(fmt.Sprintf("%s/views/%s.page.tmpl", c.RootPath, view))
 	if err != nil {
 		return err
