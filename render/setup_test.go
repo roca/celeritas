@@ -1,10 +1,11 @@
-package render
+package render_test
 
 import (
 	"os"
 	"testing"
 
 	"github.com/CloudyKit/jet/v6"
+	"github.com/roca/celeritas/render"
 )
 
 var views = jet.NewSet(
@@ -12,7 +13,7 @@ var views = jet.NewSet(
 	jet.InDevelopmentMode(),
 )
 
-var testRender = Render{
+var testRender = render.Render{
 	Renderer: "",
 	RootPath: "",
 	JetViews: views,

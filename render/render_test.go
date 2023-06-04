@@ -1,4 +1,4 @@
-package render
+package render_test
 
 import (
 	"net/http"
