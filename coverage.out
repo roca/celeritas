@@ -1,10 +1,10 @@
 mode: set
 github.com/roca/celeritas/render/render.go:35.111,36.37 1 1
-github.com/roca/celeritas/render/render.go:37.12,38.47 1 1
+github.com/roca/celeritas/render/render.go:37.12,38.36 1 1
 github.com/roca/celeritas/render/render.go:39.13,40.48 1 1
 github.com/roca/celeritas/render/render.go:41.10,41.10 0 1
 github.com/roca/celeritas/render/render.go:43.2,43.44 1 1
-github.com/roca/celeritas/render/render.go:47.113,49.16 2 1
+github.com/roca/celeritas/render/render.go:47.102,49.16 2 1
 github.com/roca/celeritas/render/render.go:49.16,51.3 1 1
 github.com/roca/celeritas/render/render.go:53.2,54.17 2 1
 github.com/roca/celeritas/render/render.go:54.17,56.3 1 0
@@ -21,3 +21,15 @@ github.com/roca/celeritas/render/render.go:82.16,85.3 2 1
 github.com/roca/celeritas/render/render.go:87.2,87.46 1 1
 github.com/roca/celeritas/render/render.go:87.46,90.3 2 0
 github.com/roca/celeritas/render/render.go:92.2,92.12 1 1
+github.com/roca/celeritas/session/session.go:21.53,26.16 3 1
+github.com/roca/celeritas/session/session.go:26.16,28.3 1 0
+github.com/roca/celeritas/session/session.go:31.2,31.48 1 1
+github.com/roca/celeritas/session/session.go:31.48,33.3 1 1
+github.com/roca/celeritas/session/session.go:36.2,36.47 1 1
+github.com/roca/celeritas/session/session.go:36.47,38.3 1 0
+github.com/roca/celeritas/session/session.go:41.2,50.40 8 1
+github.com/roca/celeritas/session/session.go:51.15,51.15 0 0
+github.com/roca/celeritas/session/session.go:52.26,52.26 0 0
+github.com/roca/celeritas/session/session.go:53.32,53.32 0 0
+github.com/roca/celeritas/session/session.go:54.10,54.10 0 1
+github.com/roca/celeritas/session/session.go:58.2,58.16 1 1
