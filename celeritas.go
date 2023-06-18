@@ -183,6 +183,7 @@ func (c *Celeritas) createRenderer() {
 		RootPath: c.RooPath,
 		Port:     c.config.port,
 		JetViews: c.JetViews,
+		Session:  c.Session,
 	}
 
 	c.Render = &myRenderer
