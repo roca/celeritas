@@ -4,6 +4,11 @@ import (
 	"log"
 
 	"github.com/golang-migrate/migrate/v4"
+
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/golang-migrate/migrate/v4/database/mysql"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
 func (c *Celeritas) MigrateUp(dsn string) error {
@@ -34,14 +39,14 @@ func (c *Celeritas) MigrateDownAll(dsn string) error {
 	}
 
 	return nil
-} 
+}
 
 func (c *Celeritas) Steps(n int, dsn string) error {
 	m, err := migrate.New("file://"+c.RooPath+"/migrations", dsn)
 	if err != nil {
 		return err
 	}
-	defer m.Close()	
+	defer m.Close()
 
 	if err := m.Steps(n); err != nil {
 		return err
@@ -62,4 +67,4 @@ func (c *Celeritas) MigrateForce(dsn string) error {
 	}
 
 	return nil
-} 
+}
