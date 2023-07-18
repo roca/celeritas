@@ -20,3 +20,23 @@ func setup() {
 	cel.RooPath = path
 	cel.DB.DataType = os.Getenv("DATABASE_TYPE")
 }
+
+func getDSN() string {
+	dbType := cel.DB.DataType
+
+	if dbType == "pgx" {
+		dbType = "postgress"
+	}
+
+	if dbType == "postgres" {
+		var dsn string
+		if os.Getenv("DATABASE_PASS") != "" {
+
+		} else {
+
+		}
+
+	} else {
+
+	}
+}
