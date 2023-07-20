@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"log"
 	"os"
 
 	"github.com/fatih/color"
@@ -14,6 +13,7 @@ const version = "1.0.0"
 var cel celeritas.Celeritas
 
 func main() {
+	var message string
 	arg1, arg2, arg3, err := validateInput()
 	if err != nil {
 		exitGracefully(err)
@@ -33,6 +33,10 @@ func main() {
 			arg2 = "up"
 		}
 		err = doMigrate(arg2, arg3)
+		if err != nil {
+			exitGracefully(err)
+		}
+		message = "Migrations completed successfully!"
 
 	case "make":
 		if arg2 == "" {
@@ -44,8 +48,10 @@ func main() {
 		}
 
 	default:
-		log.Println(arg2, arg3)
+		showHelp()
 	}
+
+	exitGracefully(nil, message)
 }
 
 func validateInput() (string, string, string, error) {
