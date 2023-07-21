@@ -1,5 +1,11 @@
 package main
 
+import (
+	"errors"
+	"fmt"
+	"time"
+)
+
 func doMigrate(arg2, arg3 string) error {
 	dsn := getDSN()
 
@@ -36,5 +42,29 @@ func doMigrate(arg2, arg3 string) error {
 		showHelp()
 	}
 
+	return nil
+}
+
+func doMakeMigrations(modelName string) error {
+	dbType := cel.DB.DataType
+	if modelName == "" {
+		return errors.New("you must give the migration a name")
+	}
+
+	fileName := fmt.Sprintf("%d_%s", time.Now().UnixMicro(), modelName)
+
+	upFile := cel.RooPath + "/migrations/" + fileName + "." + dbType + ".up.sql"
+	downFile := cel.RooPath + "/migrations/" + fileName + "." + dbType + ".down.sql"
+
+	migrationFilePrefix :=  fmt.Sprintf("templates/migrations/migration-%s_tables",modelName)
+
+	err := copyFileFromTemplate(migrationFilePrefix+dbType+".up.sql", upFile)
+	if err != nil {
+		return err
+	}
+	err = copyFileFromTemplate(migrationFilePrefix+dbType+".down.sql", downFile)
+	if err != nil {
+		return err
+	}
 	return nil
 }
