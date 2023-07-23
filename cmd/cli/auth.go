@@ -4,12 +4,16 @@ package main
 func doAuth() error {
 	// migrations
 
-	err:= doMakeMigrations("users")
+	err:= doMakeMigrations("auth")
 	if err != nil {
-		return err
+		exitGracefully(err)
 	}
 
 	// run migrations
+	err = doMigrate("up", "")
+	if err != nil {
+		exitGracefully(err)
+	}
 
 	// copy some files
 
