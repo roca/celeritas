@@ -1,12 +1,12 @@
-package celertias
+package celeritas
 
 import (
 	"encoding/json"
 	"net/http"
 )
 
-func (c *Celertias) WriteJSON(w http.ResponseWriter, status int, payload interface{}, headers ...http.Header) error {
-	out,err :=  json.MarshalIndent(payload, "", "\t")
+func (c *Celeritas) WriteJSON(w http.ResponseWriter, status int, payload interface{}, headers ...http.Header) error {
+	out, err := json.MarshalIndent(payload, "", "\t")
 	if err != nil {
 		return err
 	}
@@ -19,7 +19,7 @@ func (c *Celertias) WriteJSON(w http.ResponseWriter, status int, payload interfa
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	_,err = w.Write(w, out)
+	_, err = w.Write(out)
 	if err != nil {
 		return err
 	}
