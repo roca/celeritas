@@ -2,12 +2,10 @@ package main
 
 import (
 	"errors"
-	"io/ioutil"
 	"strings"
 
 	"github.com/gertd/go-pluralize"
 	"github.com/iancoleman/strcase"
-	"k8s.io/kube-openapi/cmd/openapi-gen/args"
 )
 
 func doMake(arg2, arg3 string) error {
@@ -42,7 +40,7 @@ func doMake(arg2, arg3 string) error {
 		handler := string(data)
 		handler = strings.Replace(handler, "$HANDLERNAME$", strcase.ToCamel(arg3), -1)
 
-		err = ioutil.WriteFile(fileName, []byte(handler), 0644)
+		err = copyDataToFile([]byte(handler), fileName)
 		if err != nil {
 			exitGracefully(err)
 		}
@@ -73,6 +71,13 @@ func doMake(arg2, arg3 string) error {
 
 		fileName := cel.RooPath + "/data/" + strings.ToLower(modelName) + ".go"
 
+		model = strings.Replace(model, "$MODELNAME$", strcase.ToCamel(modelName), -1)
+		model = strings.Replace(model, "$TABLENAME$", tableName, -1)
+
+		err = copyDataToFile([]byte(model), fileName)
+		if err != nil {
+			exitGracefully(err)
+		}
 
 	default:
 		return errors.New("make requires a subcommand: (migration|model|handler)")
