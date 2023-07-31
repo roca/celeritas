@@ -45,7 +45,7 @@ func doMigrate(arg2, arg3 string) error {
 	return nil
 }
 
-func doMakeMigrations(modelName string) error {
+func makeMigrations(modelName string) error {
 	var migrationFilePrefix string
 	dbType := cel.DB.DataType
 	if dbType == "mariadb" {
@@ -55,7 +55,7 @@ func doMakeMigrations(modelName string) error {
 	if dbType == "postgresql" {
 		dbType = "postgres"
 	}
-	
+
 	if modelName == "" {
 		return errors.New("you must give the migration a name")
 	}
@@ -66,7 +66,7 @@ func doMakeMigrations(modelName string) error {
 	downFile := cel.RooPath + "/migrations/" + fileName + "." + dbType + ".down.sql"
 
 	switch modelName {
-	case "auth", "session" :
+	case "auth", "session":
 		migrationFilePrefix = fmt.Sprintf("templates/migrations/%s_tables.%s", modelName, dbType)
 	default:
 		migrationFilePrefix = fmt.Sprintf("templates/migrations/migration.%s", dbType)

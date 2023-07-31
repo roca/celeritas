@@ -5,7 +5,7 @@ import "github.com/fatih/color"
 func doAuth() error {
 	// migrations
 
-	err := doMakeMigrations("auth")
+	err := makeMigrations("auth")
 	if err != nil {
 		exitGracefully(err)
 	}

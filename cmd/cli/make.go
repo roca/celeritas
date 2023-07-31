@@ -11,7 +11,7 @@ import (
 func doMake(arg2, arg3 string) error {
 	switch arg2 {
 	case "migration":
-		err := doMakeMigrations(arg3)
+		err := makeMigrations(arg3)
 		if err != nil {
 			exitGracefully(err)
 		}
