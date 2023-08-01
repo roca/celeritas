@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/asaskevich/govalidator"
 )
@@ -52,17 +53,35 @@ func (v *Validation) Check(ok bool, key, message string) {
 	}
 }
 
-func (v *Validation) IsEmail(field,value string) {
+func (v *Validation) IsEmail(field, value string) {
 	if !govalidator.IsEmail(value) {
-		v.AddError(field,"Invalid email address")
+		v.AddError(field, "Invalid email address")
 	}
 }
 
-func (v *Validation) IsInt(field,value string) {
+func (v *Validation) IsInt(field, value string) {
 	_, err := strconv.Atoi(value)
 	if err != nil {
 		v.AddError(field, "This field must be an integer")
 	}
 }
 
+func (v *Validation) IsFloat(field, value string) {
+	_, err := strconv.ParseFloat(value, 64)
+	if err != nil {
+		v.AddError(field, "This field must be a floating point number")
+	}
+}
 
+func (v *Validation) IsDateISO(field, value string) {
+	_, err := time.Parse("2006-01-02", value)
+	if err != nil {
+		v.AddError(field, "This field must be in a date in the form of YYYY-MM---DD")
+	}
+}
+
+func (v *Validation) NpSpaces(field, value string) {
+	if govalidator.HasWhitespace(value) {
+		v.AddError(field, "Spaces are not permitted")
+	}
+}
