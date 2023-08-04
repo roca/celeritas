@@ -3,7 +3,10 @@ package celeritas
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"net/http"
+	"path"
+	"path/filepath"
 )
 
 func (c *Celeritas) WriteJSON(w http.ResponseWriter, status int, payload interface{}, headers ...http.Header) error {
@@ -48,7 +51,10 @@ func (c *Celeritas) WriteJXML(w http.ResponseWriter, status int, payload interfa
 	return nil
 }
 
-func (c *Celeritas) DownloadFile(w http.ResponseWriter, r *http.Request, filename string) error {
-	http.ServeFile(w, r, filename)
+func (c *Celeritas) DownloadFile(w http.ResponseWriter, r *http.Request, pathToFile, filename string) error {
+	fp := path.Join(pathToFile, filename)
+	fileToServer := filepath.Clean(fp)
+	w.Header().Set("Content-Type", fmt.Sprintf("attachment; filename=\"%s\"", filename))
+	http.ServeFile(w, r, fileToServer)
 	return nil
 }
