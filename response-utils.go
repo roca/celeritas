@@ -30,7 +30,7 @@ func (c *Celeritas) WriteJSON(w http.ResponseWriter, status int, payload interfa
 	return nil
 }
 
-func (c *Celeritas) WriteJXML(w http.ResponseWriter, status int, payload interface{}, headers ...http.Header) error {
+func (c *Celeritas) WriteXML(w http.ResponseWriter, status int, payload interface{}, headers ...http.Header) error {
 	out, err := xml.MarshalIndent(payload, "", "   ")
 	if err != nil {
 		return err
