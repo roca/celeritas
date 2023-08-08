@@ -9,7 +9,7 @@ import (
 type Cache interface {
 	Has(string) (bool, error)
 	Get(string) (any, error)
-	Set(string, any, ...int) error
+	Set(string, any, ...int)  error
 	Forget(string) error
 	EmptyByMatch(string) error
 	Empty() error
@@ -35,11 +35,21 @@ func (c *RedisCache) Has(str string) (bool, error) {
 	return ok, nil
 }
 
-// func (c *RedisCache) Get(string) (any, error)
-// func (c *RedisCache) Set(string, any, ...int) error
-// func (c *RedisCache) Forget(string) error
-// func (c *RedisCache) EmptyByMatch(string) error
-// func (c *RedisCache) Empty() error
+func (c *RedisCache) Get(str string) (any, error) {
+	return "", nil
+}
+func (c *RedisCache) Set(str string, data any, ttl ...int) error {
+	return nil
+}
+func (c *RedisCache) Forget(str string) error {
+	return nil
+}
+func (c *RedisCache) EmptyByMatch(str string) error {
+	return nil
+}
+func (c *RedisCache) Empty() error {
+	return nil
+}
 func (c *RedisCache) makeKey(str string) string {
 	return fmt.Sprintf("%s:%s", c.Prefix, str)
 }

@@ -13,6 +13,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/gomodule/redigo/redis"
 	"github.com/joho/godotenv"
+	"github.com/roca/celeritas/cache"
 	"github.com/roca/celeritas/render"
 	"github.com/roca/celeritas/session"
 )
@@ -33,6 +34,7 @@ type Celeritas struct {
 	JetViews      *jet.Set
 	config        config
 	EncryptionKey string
+	Cache         cache.Cache
 }
 
 type config struct {
@@ -88,6 +90,11 @@ func (c *Celeritas) New(rootPath string) error {
 			DataType: os.Getenv("DATABASE_TYPE"),
 			Pool:     db,
 		}
+	}
+
+	if os.Getenv("CACHE") == "redis" {
+		myRedisCache := c.createClientRedisCache()
+		c.Cache = myRedisCache
 	}
 
 	c.InfoLog = infoLog
@@ -198,6 +205,15 @@ func (c *Celeritas) createRenderer() {
 
 	c.Render = &myRenderer
 
+}
+
+func (c *Celeritas) createClientRedisCache() *cache.RedisCache {
+	cacheClient := cache.RedisCache{
+		Conn:   c.createRedisPool(),
+		Prefix: c.config.redis.prefix,
+	}
+
+	return &cacheClient
 }
 
 func (c *Celeritas) createRedisPool() *redis.Pool {
