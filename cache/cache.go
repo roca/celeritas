@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"strings"
 
 	"github.com/gomodule/redigo/redis"
 )
@@ -50,7 +51,7 @@ func decode(str string) (Entry, error) {
 	b := bytes.Buffer{}
 	b.Write([]byte(str))
 	d := gob.NewDecoder(&b)
-	var item Entry
+	item := Entry{}
 	if err := d.Decode(&item); err != nil {
 		return nil, err
 	}
@@ -82,7 +83,7 @@ func (c *RedisCache) Set(str string, value any, expires ...int) error {
 	conn := c.Conn.Get()
 	defer conn.Close()
 
-	var entry Entry
+	entry := Entry{}
 	entry[key] = value
 	encoded, err := encode(entry)
 	if err != nil {
@@ -104,7 +105,12 @@ func (c *RedisCache) Set(str string, value any, expires ...int) error {
 	return nil
 }
 func (c *RedisCache) Forget(str string) error {
-	key := c.makeKey(str)
+	var key string
+	if strings.Contains(str, c.Prefix) {
+		key = str
+	} else {
+		key = c.makeKey(str)
+	}
 	conn := c.Conn.Get()
 	defer conn.Close()
 
@@ -135,6 +141,9 @@ func (c *RedisCache) EmptyByMatch(str string) error {
 }
 func (c *RedisCache) Empty() error {
 	key := c.makeKey("")
+	conn := c.Conn.Get()
+	defer conn.Close()
+
 	keys, err := c.getKeys(key)
 	if err != nil {
 		return err
@@ -142,6 +151,7 @@ func (c *RedisCache) Empty() error {
 
 	for _, x := range keys {
 		err := c.Forget(x)
+		// _, err := conn.Do("DEL", x)
 		if err != nil {
 			return err
 		}
