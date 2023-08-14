@@ -92,11 +92,6 @@ func (c *Celeritas) New(rootPath string) error {
 		}
 	}
 
-	if os.Getenv("CACHE") == "redis" {
-		myRedisCache := c.createClientRedisCache()
-		c.Cache = myRedisCache
-	}
-
 	c.InfoLog = infoLog
 	c.ErrorLog = errorLog
 	c.Debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
@@ -124,6 +119,11 @@ func (c *Celeritas) New(rootPath string) error {
 			password: os.Getenv("REDIS_PASSWORD"),
 			prefix:   os.Getenv("REDIS_PREFIX"),
 		},
+	}
+
+	if os.Getenv("CACHE") == "redis" {
+		myRedisCache := c.createClientRedisCache()
+		c.Cache = myRedisCache
 	}
 
 	// create a session
