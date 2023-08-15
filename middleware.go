@@ -17,6 +17,8 @@ func (c *Celeritas) NoSurf(next http.Handler) http.Handler {
 	csrfHandler := nosurf.New(next)
 	secure, _ := strconv.ParseBool(c.config.cookie.secure)
 
+	csrfHandler.ExemptGlob("/api/*")
+
 	csrfHandler.SetBaseCookie(http.Cookie{
 		HttpOnly: true,
 		Path:     "/",
