@@ -10,6 +10,7 @@ require (
 	github.com/alexedwards/scs/v2 v2.5.1
 	github.com/alicebob/miniredis/v2 v2.30.5
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+	github.com/dgraph-io/badger/v3 v3.2103.5
 	github.com/fatih/color v1.15.0
 	github.com/gertd/go-pluralize v0.2.1
 	github.com/go-chi/chi/v5 v5.0.8
@@ -21,6 +22,7 @@ require (
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/joho/godotenv v1.5.1
 	github.com/justinas/nosurf v1.1.1
+	github.com/robfig/cron/v3 v3.0.0
 )
 
 require (
@@ -28,7 +30,6 @@ require (
 	github.com/alicebob/gopher-json v0.0.0-20200520072559-a9ecdc9d1d3a // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/dgraph-io/badger/v3 v3.2103.5 // indirect
 	github.com/dgraph-io/ristretto v0.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
