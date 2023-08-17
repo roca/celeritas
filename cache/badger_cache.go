@@ -78,14 +78,18 @@ func (b *BadgerCache) Forget(str string) error {
 		return err
 	})
 }
-func (b *BadgerCache) EmptyByMatch(str string) error
-func (b *BadgerCache) Empty() error
+func (b *BadgerCache) EmptyByMatch(str string) error {
+	return b.emptyByMatch(str)
+}
+func (b *BadgerCache) Empty() error {
+	return b.emptyByMatch("")
+}
 
 func (b *BadgerCache) makeKey(str string) string
 func (b *BadgerCache) getKeys(pattern string) ([]string, error)
 
 func (b *BadgerCache) emptyByMatch(str string) error {
-	deletteKeys := func(keysForDelete [][]byte) error {
+	deleteKeys := func(keysForDelete [][]byte) error {
 		if err := b.Conn.Update(func(txn *badger.Txn) error {
 			for _, key := range keysForDelete {
 				if err := txn.Delete(key); err != nil {
@@ -100,4 +104,33 @@ func (b *BadgerCache) emptyByMatch(str string) error {
 	}
 
 	collectSize := 100000
+
+	err := b.Conn.View(func(txn *badger.Txn) error {
+		opts := badger.DefaultIteratorOptions
+		opts.AllVersions = false
+		opts.PrefetchValues = false
+		it := txn.NewIterator(opts)
+
+		keysForDelete := make([][]byte, 0, collectSize)
+		keysCollected := 0
+
+		for it.Seek([]byte(str)); it.ValidForPrefix([]byte(str)); it.Next() {
+			key := it.Item().KeyCopy(nil)
+			keysForDelete = append(keysForDelete, key)
+			keysCollected++
+			if keysCollected == collectSize {
+				if err := deleteKeys(keysForDelete); err != nil {
+					return err
+				}
+			}
+		}
+		if keysCollected > 0 {
+			if err := deleteKeys(keysForDelete); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+
+	return err
 }
