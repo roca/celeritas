@@ -84,4 +84,20 @@ func (b *BadgerCache) Empty() error
 func (b *BadgerCache) makeKey(str string) string
 func (b *BadgerCache) getKeys(pattern string) ([]string, error)
 
-func (b *BadgerCache) emptyByMatch(str string) error
+func (b *BadgerCache) emptyByMatch(str string) error {
+	deletteKeys := func(keysForDelete [][]byte) error {
+		if err := b.Conn.Update(func(txn *badger.Txn) error {
+			for _, key := range keysForDelete {
+				if err := txn.Delete(key); err != nil {
+					return err
+				}
+			}
+			return nil
+		}); err != nil {
+			return err
+		}
+		return nil
+	}
+
+	collectSize := 100000
+}
