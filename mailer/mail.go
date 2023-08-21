@@ -139,7 +139,7 @@ func (m *Mail) addAPIAttachments(msg Message, tx *apimail.Transmission) error {
 
 			fileName := filepath.Base(attachment)
 			attach.Bytes = content
-			attach.Name = fileName
+			attach.Filename = fileName
 
 			attachments = append(attachments, attach)
 		}
@@ -253,7 +253,7 @@ func (m *Mail) inlineCSS(s string) (string, error) {
 		KeepBangImportant: true,
 	}
 
-	prem, err := premailer.NewPremailerFromString(s, options)
+	prem, err := premailer.NewPremailerFromString(s, &options)
 	if err != nil {
 		return "", err
 	}
