@@ -268,7 +268,7 @@ func (c *Celeritas) createMailer() mailer.Mail {
 		FromName: os.Getenv("FROM_NAME"),
 		FromAddress: os.Getenv("FROM_ADDRESS"),
 		Jobs: make(chan mailer.Message,20),
-		Results: make(chan mailer.Result),
+		Results: make(chan mailer.Result,20),
 		API: os.Getenv("MAILER_API"),
 		APIKey: os.Getenv("MAILER_KEY"),
 		APIUrl: os.Getenv("MAILER_URL"),
