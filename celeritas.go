@@ -47,7 +47,6 @@ type Celeritas struct {
 	Mail          mailer.Mail
 }
 
-
 type config struct {
 	port        string
 	renderer    string // The rendering engine Go or Jet
@@ -98,10 +97,10 @@ func (c *Celeritas) New(rootPath string) error {
 
 	c.InfoLog = infoLog
 	c.ErrorLog = errorLog
-	c.Mail = c.createMailer()
 	c.Debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
 	c.Version = version
 	c.RooPath = rootPath
+	c.Mail = c.createMailer()
 	c.Routes = c.routes().(*chi.Mux)
 
 	c.config = config{
@@ -256,22 +255,22 @@ func (c *Celeritas) createRenderer() {
 }
 
 func (c *Celeritas) createMailer() mailer.Mail {
-	port , _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
+	port, _ := strconv.Atoi(os.Getenv("SMTP_PORT"))
 	m := mailer.Mail{
-		Domain:  os.Getenv("MAIL_DOMAIN"),
-		Templates: c.RooPath + "/mail",
-		Host:     os.Getenv("SMTP_HOST"),
-		Port:     port,
-		Username:     os.Getenv("SMTP_USERNAME"),
-		Password: os.Getenv("SMTP_PASSWORD"),
-		Encryption: os.Getenv("SMTP_ENCRYPTION"),
-		FromName: os.Getenv("FROM_NAME"),
+		Domain:      os.Getenv("MAIL_DOMAIN"),
+		Templates:   c.RooPath + "/mail",
+		Host:        os.Getenv("SMTP_HOST"),
+		Port:        port,
+		Username:    os.Getenv("SMTP_USERNAME"),
+		Password:    os.Getenv("SMTP_PASSWORD"),
+		Encryption:  os.Getenv("SMTP_ENCRYPTION"),
+		FromName:    os.Getenv("FROM_NAME"),
 		FromAddress: os.Getenv("FROM_ADDRESS"),
-		Jobs: make(chan mailer.Message,20),
-		Results: make(chan mailer.Result,20),
-		API: os.Getenv("MAILER_API"),
-		APIKey: os.Getenv("MAILER_KEY"),
-		APIUrl: os.Getenv("MAILER_URL"),
+		Jobs:        make(chan mailer.Message, 20),
+		Results:     make(chan mailer.Result, 20),
+		API:         os.Getenv("MAILER_API"),
+		APIKey:      os.Getenv("MAILER_KEY"),
+		APIUrl:      os.Getenv("MAILER_URL"),
 	}
 
 	return m
