@@ -71,6 +71,6 @@ func teardown() {
 func TestMain(m *testing.M) {
 	setup()
 	code := m.Run()
-	teardown()
+	// teardown()
 	os.Exit(code)
 }
