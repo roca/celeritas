@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/CloudyKit/jet/v6"
@@ -45,6 +46,14 @@ type Celeritas struct {
 	Cache         cache.Cache
 	Scheduler     *cron.Cron
 	Mail          mailer.Mail
+	Server        Server
+}
+
+type Server struct {
+	ServerName string
+	Port       string
+	Secure     bool
+	URL        string
 }
 
 type config struct {
@@ -124,6 +133,18 @@ func (c *Celeritas) New(rootPath string) error {
 			prefix:   os.Getenv("REDIS_PREFIX"),
 		},
 	}
+
+	secure := true
+	if strings.ToLower(os.Getenv("SECURE")) == "false" {
+		secure = false
+	}
+	c.Server = Server{
+		ServerName: os.Getenv("SERVER_NAME"),
+		Port:       os.Getenv("PORT"),
+		Secure:     secure,
+		URL:        fmt.Sprintf("https://%s:%s", os.Getenv("SERVER_NAME"), os.Getenv("PORT")),
+	}
+
 
 	c.Scheduler = cron.New()
 
