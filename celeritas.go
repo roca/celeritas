@@ -142,7 +142,7 @@ func (c *Celeritas) New(rootPath string) error {
 		ServerName: os.Getenv("SERVER_NAME"),
 		Port:       os.Getenv("PORT"),
 		Secure:     secure,
-		URL:        fmt.Sprintf("https://%s:%s", os.Getenv("SERVER_NAME"), os.Getenv("PORT")),
+		URL:        fmt.Sprintf("http://%s:%s", os.Getenv("SERVER_NAME"), os.Getenv("PORT")),
 	}
 
 
