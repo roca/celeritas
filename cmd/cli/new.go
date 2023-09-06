@@ -2,7 +2,11 @@ package main
 
 import (
 	"log"
+	"os"
 	"strings"
+
+	"github.com/fatih/color"
+	"github.com/go-git/go-git/v5"
 )
 
 func doNew(appName string) {
@@ -18,6 +22,15 @@ func doNew(appName string) {
 	log.Println("App name is", appName)
 
 	// git clone the skeleton application
+	color.Green("\tCloning skeleton application")
+	_, err := git.PlainClone("./"+appName, false, &git.CloneOptions{
+		URL:      "git@github.com/roca/celeritas-skeleton.git",
+		Progress: os.Stdout,
+		Depth:    1,
+	})
+	if err != nil {
+		exitGracefully(err)
+	}
 
 	// remove .git directory
 
