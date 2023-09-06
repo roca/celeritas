@@ -24,7 +24,17 @@ func doNew(appName string) {
 	// git clone the skeleton application
 	color.Green("\tCloning skeleton application")
 	_, err := git.PlainClone("./"+appName, false, &git.CloneOptions{
-		URL:      "git@github.com:roca/celeritas-skeleton.git",
+		// The intended use of a GitHub personal access token is in replace of your password
+		// because access tokens can easily be revoked.
+		// https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
+		// Auth: &http.BasicAuth{
+		// 	Username: "abc123", // yes, this can be anything except an empty string
+		// 	Password: os.Getenv("CELERITAS_SKELETON_ACCESS_TOKEN"),
+		// },
+		// Auth: &http.TokenAuth{
+		// 	Token: os.Getenv("CELERITAS_SKELETON_ACCESS_TOKEN"),
+		// },
+		URL:      "https://github.com/roca/celeritas-skeleton.git",
 		Progress: os.Stdout,
 		Depth:    1,
 	})
