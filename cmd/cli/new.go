@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -34,6 +35,7 @@ func doNew(appName string) {
 		// Auth: &http.TokenAuth{
 		// 	Token: os.Getenv("CELERITAS_SKELETON_ACCESS_TOKEN"),
 		// },
+		// URL:      "git@github.com:roca/celeritas-skeleton.git",
 		URL:      "https://github.com/roca/celeritas-skeleton.git",
 		Progress: os.Stdout,
 		Depth:    1,
@@ -43,6 +45,10 @@ func doNew(appName string) {
 	}
 
 	// remove .git directory
+	err = os.RemoveAll(fmt.Sprintf("./%s/.git", appName))
+	if err != nil {
+		exitGracefully(err)
+	}
 
 	// create a ready to go .env file
 
