@@ -14,3 +14,14 @@
 ./celeritas make session # creates a table in the database as a session store
 ./celeritas make mail <name> # creates two starter mail templates in the mail directory
 ```
+
+
+## ToDo:
+
+- [Add file storage feature using viant/afs](https://github.com/viant/afs)
+- Laravel Broadcasting
+- Lavarel Dusk
+- Laravel Queues
+
+
+[Laravel Docs](https://laravel.com/docs/10.x)
